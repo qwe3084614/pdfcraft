@@ -123,7 +123,7 @@ fn japanese_fallback(query: &FontQuery) -> Option<(FontData, u32)> {
 /// Off Windows there is nothing installed worth reading, and this answers `None`.
 fn system_cjk_fallback(query: &FontQuery) -> Option<(FontData, u32)> {
     let FontQuery::Fallback(f) = query else { return None };
-    if f.character_collection.is_none() {
+    if f.character_collection.as_ref()?.family != CidFamily::AdobeGB1 {
         return None;
     }
     let (bytes, index) = pdfcraft_fonts::installed_cjk_face(f.is_serif)?;
